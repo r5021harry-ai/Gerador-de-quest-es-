@@ -1,0 +1,6 @@
+{
+  "name": "SimulaFCC SEDUC-MA - Gerador e Simulador de Questões",
+  "description": "Gerador e simulador de questões da banca FCC para o concurso SEDUC-MA. Filtre por disciplina e nível, confira gabaritos comentados, analise sua evolução e faça simulados de reforço focados em erros.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
