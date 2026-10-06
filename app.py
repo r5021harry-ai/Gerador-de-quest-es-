@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# GERENCIAMENTO DA CHAVE API (Solicitada apenas uma vez)
+# GERENCIAMENTO DA CHAVE API
 # ---------------------------------------------------------
 if "api_key" not in st.session_state:
     st.session_state.api_key = ""
@@ -158,7 +158,7 @@ st.markdown("""
 # ---------------------------------------------------------
 # CARDS DE CONFIGURAÇÃO (ESTILO IMAGEM 2)
 # ---------------------------------------------------------
-st.markdown("### ⚙️ Configurar Simulado FCC • SEDUC-MA")
+st.markdown("### ⚙️️ Configurar Simulado FCC • SEDUC-MA")
 st.caption("Personalize disciplina, profundidade e modo de treino da banca")
 
 st.write("")
@@ -228,12 +228,23 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
     else:
         client = genai.Client(api_key=st.session_state.api_key)
         
-        prompt = f"""
-        Você é a banca examinadora FCC (Fundação Carlos Chagas) para o concurso SEDUC-MA.
-        Gere um simulado completo com as seguintes especificações:
-        - Foco do Cargo: {foco_cargo}
-        - Nível de Dificuldade: {dificuldade}
-        - Quantidade: {qtd_questoes}
+        prompt = (
+            "Você é a banca examinadora FCC (Fundação Carlos Chagas) para o concurso SEDUC-MA.\n"
+            f"Gere um simulado completo com as seguintes especificações:\n"
+            f"- Foco do Cargo: {foco_cargo}\n"
+            f"- Nível de Dificuldade: {dificuldade}\n"
+            f"- Quantidade: {qtd_questoes}\n\n"
+            "Apresente as questões com 5 alternativas (A, B, C, D, E) no estilo clássico da FCC.\n"
+            "No final de cada questão, inclua o Gabarito Comentado explicativo."
+        )
         
-        Apresente as questões com 5 alternativas (A, B, C, D, E) no estilo clássico da FCC.
-        No final de cada questão, inclua o Gabarito Comentado explicativo
+        with st.spinner("Gerando simulado com inteligência artificial..."):
+            try:
+                response = client.models.generate_content(
+                    model="gemini-2.5-flash",
+                    contents=prompt,
+                )
+                st.markdown("### 📝 Simulado Gerado")
+                st.write(response.text)
+            except Exception as e:
+                st.error(f"Erro ao gerar simulado: {e}")
