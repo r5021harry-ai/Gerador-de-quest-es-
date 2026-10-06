@@ -158,7 +158,7 @@ st.markdown("""
 # ---------------------------------------------------------
 # CARDS DE CONFIGURAÇÃO
 # ---------------------------------------------------------
-st.markdown("### ⚙️️ Configurar Simulado FCC • SEDUC-MA")
+st.markdown("### ⚙ Configurar Simulado FCC • SEDUC-MA")
 st.caption("Personalize disciplina, profundidade e modo de treino da banca")
 
 st.write("")
@@ -241,7 +241,7 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
         with st.spinner("Gerando simulado com inteligência artificial..."):
             try:
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.8-flash",
                     contents=prompt,
                 )
                 st.markdown("### 📝 Simulado Gerado")
