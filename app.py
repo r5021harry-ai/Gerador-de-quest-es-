@@ -1,5 +1,6 @@
 import streamlit as st
 from google import genai
+from google.genai.errors import APIError
 
 # ---------------------------------------------------------
 # CONFIGURAÇÃO DA PÁGINA
@@ -239,12 +240,30 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
         )
         
         with st.spinner("Gerando simulado com inteligência artificial..."):
-            try:
-                response = client.models.generate_content(
-                    model="gemini-3.8-flash",
-                    contents=prompt,
-                )
-                st.markdown("### 📝 Simulado Gerado")
-                st.write(response.text)
-            except Exception as e:
-                st.error(f"Erro ao gerar simulado: {e}")
+            # Lista de modelos por ordem de preferência para evitar instabilidade
+            modelos_disponiveis = [
+                "gemini-3.8-flash",
+                "gemini-2.5-pro",
+                "gemini-flash-latest"
+            ]
+            
+            sucesso = False
+            for mod in modelos_disponiveis:
+                try:
+                    response = client.models.generate_content(
+                        model=mod,
+                        contents=prompt,
+                    )
+                    st.markdown("### 📝 Simulado Gerado")
+                    st.write(response.text)
+                    sucesso = True
+                    break
+                except APIError as e:
+                    # Se for pico de uso, tenta o próximo modelo da lista
+                    continue
+                except Exception as e:
+                    st.error(f"Erro inesperado: {e}")
+                    break
+            
+            if not sucesso:
+                st.warning("⚠️ O serviço do Gemini está enfrentando alta demanda momentânea nos servidores da Google. Por favor, aguarde alguns instantes e tente novamente.")
