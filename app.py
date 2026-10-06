@@ -158,7 +158,7 @@ st.markdown("""
 # ---------------------------------------------------------
 # CARDS DE CONFIGURAÇÃO
 # ---------------------------------------------------------
-st.markdown("### ⚙️ Configurar Simulado FCC • SEDUC-MA")
+st.markdown("### ⚙️️ Configurar Simulado FCC • SEDUC-MA")
 st.caption("Personalize disciplina, profundidade e modo de treino da banca")
 
 st.write("")
