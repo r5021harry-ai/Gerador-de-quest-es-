@@ -236,16 +236,4 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
         - Quantidade: {qtd_questoes}
         
         Apresente as questões com 5 alternativas (A, B, C, D, E) no estilo clássico da FCC.
-        No final de cada questão, inclua o Gabarito Comentado explicativo.
-        """
-        
-        with st.spinner("Gerando simulado com inteligência artificial..."):
-            try:
-                response = client.models.generate_content(
-                    model="gemini-2.5-flash",
-                    contents=prompt,
-                )
-                st.markdown("### 📝 Simulado Gerado")
-                st.write(response.text)
-            except Exception as e:
-                st.error(f"Erro ao gerar simulado: {e}")
+        No final de cada questão, inclua o Gabarito Comentado explicativo
