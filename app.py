@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# GERENCIAMENTO DA CHAVE API (Pede apenas uma vez)
+# GERENCIAMENTO DA CHAVE API (Solicitada apenas uma vez)
 # ---------------------------------------------------------
 if "api_key" not in st.session_state:
     st.session_state.api_key = ""
@@ -22,104 +22,148 @@ with st.sidebar:
         "Cole sua Gemini API Key:", 
         value=st.session_state.api_key, 
         type="password",
-        help="A chave fica salva durante o uso da sessão."
+        help="A chave permanece salva durante a sessão."
     )
     if key_input:
         st.session_state.api_key = key_input
-        st.success("API Key guardada com sucesso!")
+        st.success("API Key salva com sucesso!")
 
 # ---------------------------------------------------------
-# ESTILIZAÇÃO CSS CUSTOMIZADA (Tema SimulaFCC - Imagem 2)
+# ESTILIZAÇÃO CSS AVANÇADA (Layout Dashboard Imagem 2)
 # ---------------------------------------------------------
 st.markdown("""
 <style>
-    /* Fundo Escuro do App */
+    /* Fundo Escuro */
     .stApp {
         background-color: #0b0f19;
-        color: #e2e8f0;
+        color: #f8fafc;
     }
     
-    .badge-tag {
+    /* Topbar Header */
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #0f172a;
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: 1px solid #1e293b;
+        margin-bottom: 20px;
+    }
+    
+    .logo-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .badge-fcc {
         background-color: #854d0e;
         color: #fef08a;
         padding: 3px 8px;
-        border-radius: 4px;
+        border-radius: 6px;
         font-size: 11px;
         font-weight: bold;
     }
 
-    /* Card do Plano de Reforço */
-    .reforco-card {
-        background: linear-gradient(90deg, #31131d 0%, #17132a 100%);
-        border: 1px solid #9f1239;
-        border-radius: 10px;
+    /* Card de Reforço (Banner Rosado) */
+    .reforco-box {
+        background: linear-gradient(90deg, #31131d 0%, #1e1b4b 100%);
+        border: 1px solid #e11d48;
+        border-radius: 12px;
         padding: 18px 24px;
-        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
     }
 
-    /* Botões do Menu Superior */
-    div.stButton > button {
+    /* Container Principal */
+    .main-card {
+        background-color: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* Botão de Destaque */
+    .stButton > button {
         border-radius: 8px;
         border: 1px solid #334155;
         background-color: #1e293b;
-        color: #f8fafc;
-        font-weight: 500;
+        color: #ffffff;
+        font-weight: 600;
+        transition: all 0.2s ease;
     }
     
-    div.stButton > button:hover {
+    .stButton > button:hover {
         border-color: #6366f1;
-        color: #818cf8;
+        background-color: #312e81;
+        color: #ffffff;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# TOPO DO APP E ESTATÍSTICAS
+# CABEÇALHO DO DASHBOARD
 # ---------------------------------------------------------
-top_col1, top_col2 = st.columns([2, 1])
+col_header1, col_header2 = st.columns([2, 1])
 
-with top_col1:
-    st.markdown("## 🎓 **SimulaFCC** <span class='badge-tag'>SEDUC-MA • Ensino Médio</span>", unsafe_allow_html=True)
-    st.caption("Magistério Ensino Médio: História & Biologia • Fundação Carlos Chagas")
+with col_header1:
+    st.markdown("""
+        <div class="logo-title">
+            🎓 SimulaFCC 
+            <span class="badge-fcc">SEDUC-MA • Ensino Médio</span>
+        </div>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+            Magistério Ensino Médio: História & Biologia • Fundação Carlos Chagas
+        </div>
+    """, unsafe_allow_html=True)
 
-with top_col2:
-    s1, s2, s3 = st.columns(3)
-    s1.metric("Respondidas", "5")
-    s2.metric("Aproveitamento", "40%")
-    s3.metric("Ofensiva", "🔥 1 dia")
+with col_header2:
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Respondidas", "5")
+    m2.metric("Aproveitamento", "40%")
+    m3.metric("Ofensiva", "🔥 1 dia")
+
+st.write("")
 
 # Menu de Navegação Superior
-nav_1, nav_2, nav_3, nav_4, nav_5, nav_6 = st.columns(6)
-nav_1.button("➕ Novo Simulado", type="primary", use_container_width=True)
-nav_2.button("🔄 Reforço (3)", use_container_width=True)
-nav_3.button("📖 Caderno de Erros", use_container_width=True)
-nav_4.button("📈 Estatísticas", use_container_width=True)
-nav_5.button("📜 Histórico", use_container_width=True)
-nav_6.button("📄 Edital Base", use_container_width=True)
+n1, n2, n3, n4, n5, n6 = st.columns(6)
+n1.button("➕ Novo Simulado", type="primary", use_container_width=True)
+n2.button("🔄 Reforço (3)", use_container_width=True)
+n3.button("📖 Caderno de Erros", use_container_width=True)
+n4.button("📈 Estatísticas", use_container_width=True)
+n5.button("📜 Histórico", use_container_width=True)
+n6.button("📄 Edital Base", use_container_width=True)
 
 st.write("")
 
 # ---------------------------------------------------------
-# BANNER DO PLANO DE REFORÇO ATIVO
+# BANNER DO PLANO DE REFORÇO
 # ---------------------------------------------------------
 st.markdown("""
-<div class="reforco-card">
+<div class="reforco-box">
     <div>
-        <h4 style="margin: 0; color: #fecdd3;">🎯 Plano de Reforço Ativo: 3 questão(ões) no Caderno de Erros</h4>
+        <h4 style="margin: 0; color: #fecdd3; font-size: 16px;">🎯 Plano de Reforço Ativo: 3 questão(ões) no Caderno de Erros</h4>
         <p style="margin: 4px 0 0 0; color: #fda4af; font-size: 13px;">Aumente sua retenção realizando um simulado focado especificamente nos conteúdos que você mais errou.</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# PAINEL DE CONFIGURAÇÃO DO SIMULADO
+# CARDS DE CONFIGURAÇÃO (ESTILO IMAGEM 2)
 # ---------------------------------------------------------
 st.markdown("### ⚙️ Configurar Simulado FCC • SEDUC-MA")
 st.caption("Personalize disciplina, profundidade e modo de treino da banca")
 
 st.write("")
 
-# Área do Cargo
+# 1. Área do Cargo
 st.write("**Área do Cargo (Ensino Médio):**")
 foco_cargo = st.radio(
     "Cargo", 
@@ -130,43 +174,45 @@ foco_cargo = st.radio(
 
 st.write("")
 
-# 1. DISCIPLINA DO EDITAL
+# 2. Disciplinas do Edital em formato de Seleção
 st.write("**1. DISCIPLINA DO EDITAL**")
-col_d1, col_d2, col_d3 = st.columns(3)
 
-with col_d1:
-    st.checkbox("Todas as Disciplinas (Simulação Mista)", value=True)
-    st.checkbox("Legislação Educacional e do Maranhão")
+c_disc1, c_disc2, c_disc3 = st.columns(3)
 
-with col_d2:
-    st.checkbox("História (Ensino Médio)")
-    st.checkbox("Conhecimentos Pedagógicos e Didática")
+with c_disc1:
+    disc_todas = st.checkbox("Todas as Disciplinas (Simulação Mista)", value=True)
+    disc_legis = st.checkbox("Legislação Educacional e do Maranhão")
 
-with col_d3:
-    st.checkbox("Biologia (Ensino Médio)")
-    st.checkbox("Língua Portuguesa")
+with c_disc2:
+    disc_hist = st.checkbox("História (Ensino Médio)")
+    disc_pedag = st.checkbox("Conhecimentos Pedagógicos e Didática")
+
+with c_disc3:
+    disc_bio = st.checkbox("Biologia (Ensino Médio)")
+    disc_port = st.checkbox("Língua Portuguesa")
 
 st.write("")
 
-# 3 & 4. DIFICULDADE E QUANTIDADE DE QUESTÕES
-col_dif, col_qtd = st.columns(2)
+# 3. Nível de Dificuldade e Quantidade de Questões
+col_dificuldade, col_quantidade = st.columns(2)
 
-with col_dif:
+with col_dificuldade:
     st.write("**3. NÍVEL DE DIFICULDADE DA FCC**")
-    dificuldade = st.select_slider(
-        "Nível",
-        options=["Todos", "Fácil", "Médio", "Difícil"],
-        value="Todos",
+    dificuldade = st.radio(
+        "Dificuldade",
+        ["Todos", "Fácil", "Médio", "Difícil"],
+        horizontal=True,
         label_visibility="collapsed"
     )
     st.caption("Equilíbrio real reproduzindo a composição da prova da SEDUC-MA.")
 
-with col_qtd:
+with col_quantidade:
     st.write("**4. QUANTIDADE DE QUESTÕES**")
-    qtd_questoes = st.select_slider(
+    qtd_questoes = st.radio(
         "Quantidade",
-        options=["5 questões", "10 questões", "15 questões", "20 questões"],
-        value="10 questões",
+        ["5 questões", "10 questões", "15 questões", "20 questões"],
+        index=1,
+        horizontal=True,
         label_visibility="collapsed"
     )
     st.caption("⏱️ Tempo recomendado FCC: ~30 minutos")
@@ -174,11 +220,11 @@ with col_qtd:
 st.divider()
 
 # ---------------------------------------------------------
-# BOTÃO DE GERAR SIMULADO
+# GERADOR DE SIMULADOS
 # ---------------------------------------------------------
 if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=True):
     if not st.session_state.api_key:
-        st.error("⚠️ Insira a sua Gemini API Key no menu lateral para começar.")
+        st.error("⚠️ Insira a sua Gemini API Key no menu lateral para gerar as questões.")
     else:
         client = genai.Client(api_key=st.session_state.api_key)
         
@@ -193,7 +239,7 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
         No final de cada questão, inclua o Gabarito Comentado explicativo.
         """
         
-        with st.spinner("A gerar o simulado com o modelo Gemini..."):
+        with st.spinner("Gerando simulado com inteligência artificial..."):
             try:
                 response = client.models.generate_content(
                     model="gemini-2.5-flash",
@@ -202,4 +248,4 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
                 st.markdown("### 📝 Simulado Gerado")
                 st.write(response.text)
             except Exception as e:
-                st.error(f"Erro ao processar o pedido: {e}")
+                st.error(f"Erro ao gerar simulado: {e}")
