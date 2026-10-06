@@ -25,7 +25,7 @@ with st.sidebar:
         value=st.session_state.api_key, 
         type="password",
         help="A chave permanece salva durante a sessão.",
-        key="api_key_input"  # ID único adicionado para evitar StreamlitDuplicateElementId
+        key="api_key_input"
     )
     if key_input:
         st.session_state.api_key = key_input
@@ -187,7 +187,7 @@ with col_quantidade:
     qtd_questoes = st.radio(
         "Quantidade",
         ["5 questões", "10 questões", "15 questões", "20 questões"],
-        index=1,
+        index=0,
         horizontal=True,
         label_visibility="collapsed",
         key="qtd_questoes_radio"
@@ -216,25 +216,30 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
         )
         
         with st.spinner("Gerando simulado com inteligência artificial..."):
-            modelos = ["gemini-2.5-flash", "gemini-2.5-pro"]
+            # Lista de modelos por ordem de prioridade
+            modelos = ["gemini-2.5-flash", "gemini-1.5-flash"]
             sucesso = False
-            
+            ultimo_erro = ""
+
             for mod in modelos:
                 try:
                     response = client.models.generate_content(
                         model=mod,
                         contents=prompt,
                     )
-                    st.markdown("### 📝 Simulado Gerado")
-                    st.write(response.text)
-                    sucesso = True
-                    break
-                except APIError:
-                    time.sleep(2)
+                    if response and response.text:
+                        st.markdown("### 📝 Simulado Gerado")
+                        st.write(response.text)
+                        sucesso = True
+                        break
+                except APIError as e:
+                    ultimo_erro = str(e)
+                    time.sleep(1)
                     continue
                 except Exception as e:
-                    st.error(f"Erro ao comunicar com a API: {e}")
+                    ultimo_erro = str(e)
                     break
             
             if not sucesso:
-                st.warning("⚠️ Os servidores da Google estão indisponíveis no momento. Aguarde alguns instantes e tente novamente.")
+                st.error(f"⚠️ Erro ao gerar com a API da Google: {ultimo_erro}")
+                st.info("💡 **Dica**: Verifique se a sua API Key inserida na barra lateral está correta e com cotas ativas no Google AI Studio.")
