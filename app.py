@@ -1,6 +1,7 @@
 import time
 import streamlit as st
 from google import genai
+from google.genai import types
 from google.genai.errors import APIError
 
 # ---------------------------------------------------------
@@ -203,7 +204,11 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
     if not st.session_state.api_key:
         st.error("⚠️ Insira a sua Gemini API Key no menu lateral para gerar as questões.")
     else:
-        client = genai.Client(api_key=st.session_state.api_key)
+        # Configura a chamada com a versão válida da API
+        client = genai.Client(
+            api_key=st.session_state.api_key,
+            http_options=types.HttpOptions(api_version="v1")
+        )
         
         prompt = (
             "Você é a banca examinadora FCC (Fundação Carlos Chagas) para o concurso SEDUC-MA.\n"
@@ -216,8 +221,8 @@ if st.button("🚀 GERAR SIMULADO AGORA", type="primary", use_container_width=Tr
         )
         
         with st.spinner("Gerando simulado com inteligência artificial..."):
-            # Lista de modelos por ordem de prioridade
-            modelos = ["gemini-2.5-flash", "gemini-1.5-flash"]
+            # Modelos suportados na versão atual da API
+            modelos = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-2.5-pro"]
             sucesso = False
             ultimo_erro = ""
 
