@@ -29,7 +29,7 @@ with st.sidebar:
         st.success("API Key salva com sucesso!")
 
 # ---------------------------------------------------------
-# ESTILIZAÇÃO CSS AVANÇADA (Layout Dashboard Imagem 2)
+# ESTILIZAÇÃO CSS AVANÇADA (Layout Dashboard)
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -156,9 +156,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# CARDS DE CONFIGURAÇÃO (ESTILO IMAGEM 2)
+# CARDS DE CONFIGURAÇÃO
 # ---------------------------------------------------------
-st.markdown("### ⚙️️ Configurar Simulado FCC • SEDUC-MA")
+st.markdown("### ⚙️ Configurar Simulado FCC • SEDUC-MA")
 st.caption("Personalize disciplina, profundidade e modo de treino da banca")
 
 st.write("")
